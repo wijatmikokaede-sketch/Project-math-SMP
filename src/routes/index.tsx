@@ -77,7 +77,7 @@ function Index() {
             </div>
 
             <div className="mt-12 flex gap-8">
-              {[["6+", "Topik"], ["100%", "Interaktif"], ["∞", "Latihan"]].map(([n, l]) => (
+              {[["6±", "Topik"], ["Semoga", "Interaktif"], ["Banyaklah pokoknya", "Latihan"]].map(([n, l]) => (
                 <div key={l}>
                   <div className="text-2xl font-bold font-display">{n}</div>
                   <div className="text-xs text-muted-foreground uppercase tracking-wider">{l}</div>
@@ -107,7 +107,7 @@ function Index() {
       {/* GALERI */}
       <section id="galeri" className="max-w-7xl mx-auto px-6 py-24">
         <div className="max-w-2xl">
-          <div className="text-sm font-medium text-primary uppercase tracking-wider">Galeri Eksplorasi</div>
+          <div className="text-sm font-medium text-primary uppercase tracking-wider">Hall Of Fame</div>
           <h2 className="mt-2 text-4xl md:text-5xl font-bold">Pick your path.</h2>
           <p className="mt-4 text-muted-foreground">99% Ahli Matematika Quit Sebelum Jago.</p>
         </div>
