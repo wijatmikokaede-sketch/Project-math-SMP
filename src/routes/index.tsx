@@ -61,17 +61,17 @@ function Index() {
               <span className="text-gradient">jadi seru lagi.</span>
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-lg">
-              Gamble Your Intelligence And Have Fun :D.
+               All War Is Deception -Sun Tzu Art Of War.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" className="bg-gradient-hero hover:opacity-90 shadow-card group" asChild>
                 <a href="#galeri">
-                  Jelajahi Proyek
+                  When to start?
                   <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="#reflex">Coba Math Reflex</a>
+                <a href="#reflex">Gamble your intellegence</a>
               </Button>
             </div>
 
@@ -107,8 +107,8 @@ function Index() {
       <section id="galeri" className="max-w-7xl mx-auto px-6 py-24">
         <div className="max-w-2xl">
           <div className="text-sm font-medium text-primary uppercase tracking-wider">Galeri Eksplorasi</div>
-          <h2 className="mt-2 text-4xl md:text-5xl font-bold">Pilih topik, mulai petualangan.</h2>
-          <p className="mt-4 text-muted-foreground">Setiap kartu adalah pintu masuk ke dunia konsep matematika SMP. Klik dan jelajahi.</p>
+          <h2 className="mt-2 text-4xl md:text-5xl font-bold">Pick your path.</h2>
+          <p className="mt-4 text-muted-foreground">99% Ahli Matematika Quit Sebelum Jago.</p>
         </div>
 
         <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
