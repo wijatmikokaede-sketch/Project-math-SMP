@@ -6,7 +6,7 @@ import { ArrowRight, Sigma, Shapes, LineChart, Calculator, Brain, Target, Zap, T
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MathQuest SMP — Petualangan Matematika Modern" },
+      { title: "Art Of Math" },
       { name: "description", content: "Landing page proyek matematika SMP: jelajahi Aljabar, Geometri, dan uji refleksmu di Math Reflex Arena." },
     ],
   }),
@@ -50,7 +50,7 @@ function Index() {
         <div className="max-w-7xl mx-auto px-6 py-24 md:py-32 grid md:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-up">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium border border-border">
-              <Zap className="h-3 w-3 text-orange" /> Proyek Matematika Kelas SMP
+              <Zap className="h-3 w-3 text-orange" /> Sebuah Project Random
             </span>
             <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
               Belajar Matematika <br />
