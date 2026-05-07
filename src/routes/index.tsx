@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Art Of Math" },
-      { name: "description", content: "Landing page proyek matematika SMP: jelajahi Aljabar, Geometri, dan uji refleksmu di Math Reflex Arena." },
+      { name: "description", content: "Landing page proyek matematika SMP: All War Is Deception -Sun Tzu Art Of War." },
     ],
   }),
   component: Index,
@@ -57,7 +57,7 @@ function Index() {
               <span className="text-gradient">jadi seru lagi.</span>
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-lg">
-              Jelajahi topik aljabar, geometri, hingga statistika lewat petualangan visual — lalu uji refleksmu di arena Math Reflex.
+              Gamble Your Intelligence And Have Fun :D.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" className="bg-gradient-hero hover:opacity-90 shadow-card group" asChild>
