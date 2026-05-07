@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sigma, Shapes, LineChart, Calculator, Brain, Target, Zap, Trophy, Play } from "lucide-react";
+import { GitHubSyncBadge } from "@/components/GitHubSyncBadge";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,7 +38,10 @@ function Index() {
             <a href="#reflex" className="hover:text-foreground transition">Math Reflex</a>
             <a href="#tentang" className="hover:text-foreground transition">Tentang</a>
           </nav>
-          <Button size="sm" className="bg-gradient-hero hover:opacity-90">Mulai</Button>
+          <div className="flex items-center gap-2">
+            <GitHubSyncBadge />
+            <Button size="sm" className="bg-gradient-hero hover:opacity-90">Mulai</Button>
+          </div>
         </div>
       </header>
 
