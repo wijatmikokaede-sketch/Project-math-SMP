@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sigma, Shapes, LineChart, Calculator, Brain, Target, Zap, Trophy, Play } from "lucide-react";
@@ -14,13 +14,14 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+// 1. DITAMBAHKAN RUTE UNTUK MASING-MASING MATERI
 const topics = [
-  { icon: Sigma, title: "Aljabar", desc: "Persamaan, variabel, dan logika simbolis." },
-  { icon: Shapes, title: "Geometri", desc: "Bangun datar, ruang, dan transformasi." },
-  { icon: LineChart, title: "Statistika", desc: "Data, diagram, rata-rata & peluang." },
-  { icon: Calculator, title: "Aritmatika", desc: "Bilangan bulat, pecahan, dan operasi." },
-  { icon: Brain, title: "Logika", desc: "Pola, deret, dan penalaran kritis." },
-  { icon: Target, title: "Soal HOTS", desc: "Tantangan berpikir tingkat tinggi." },
+  { icon: Sigma, title: "Aljabar", desc: "Persamaan, variabel, dan logika simbolis.", route: "/materi-1" },
+  { icon: Shapes, title: "Geometri", desc: "Bangun datar, ruang, dan transformasi.", route: "/materi-2" },
+  { icon: LineChart, title: "Statistika", desc: "Data, diagram, rata-rata & peluang.", route: "/materi-3" },
+  { icon: Calculator, title: "Aritmatika", desc: "Bilangan bulat, pecahan, dan operasi.", route: "/materi-4" },
+  { icon: Brain, title: "Logika", desc: "Pola, deret, dan penalaran kritis.", route: "/materi-5" },
+  { icon: Target, title: "Soal HOTS", desc: "Tantangan berpikir tingkat tinggi.", route: "/materi-6" },
 ];
 
 function Index() {
@@ -71,7 +72,7 @@ function Index() {
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="#reflex">Gamble your intellegence</a>
+                <a href="#reflex">Gamble your intelligence</a>
               </Button>
             </div>
 
@@ -112,28 +113,30 @@ function Index() {
         </div>
 
         <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {topics.map(({ icon: Icon, title, desc }, i) => (
-            <Card
-              key={title}
-              className="group relative overflow-hidden border-border bg-card p-0 transition-all duration-300 hover:-translate-y-2 hover:shadow-card cursor-pointer"
-            >
-              {/* Image shell */}
-              <div className="relative aspect-[4/3] bg-gradient-to-br from-secondary to-muted overflow-hidden">
-                <div className="absolute inset-0 opacity-30 transition-opacity group-hover:opacity-60" style={{ backgroundImage: "linear-gradient(45deg, transparent 48%, currentColor 48%, currentColor 52%, transparent 52%)", backgroundSize: "20px 20px", color: "var(--primary)" }} />
-                <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
-                <div className="absolute top-4 left-4 text-xs font-mono text-muted-foreground">0{i + 1}</div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Icon className="h-16 w-16 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6" strokeWidth={1.5} />
+          {topics.map(({ icon: Icon, title, desc, route }, i) => (
+            /* 2. DITAMBAHKAN KOMPONEN <Link> AGAR KARTU BISA DIKLIK */
+            <Link to={route} key={title} className="block group">
+              <Card
+                className="relative overflow-hidden border-border bg-card p-0 transition-all duration-300 hover:-translate-y-2 hover:shadow-card cursor-pointer h-full"
+              >
+                {/* Image shell */}
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-secondary to-muted overflow-hidden">
+                  <div className="absolute inset-0 opacity-30 transition-opacity group-hover:opacity-60" style={{ backgroundImage: "linear-gradient(45deg, transparent 48%, currentColor 48%, currentColor 52%, transparent 52%)", backgroundSize: "20px 20px", color: "var(--primary)" }} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+                  <div className="absolute top-4 left-4 text-xs font-mono text-muted-foreground">0{i + 1}</div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Icon className="h-16 w-16 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6" strokeWidth={1.5} />
+                  </div>
                 </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold flex items-center justify-between">
-                  {title}
-                  <ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:text-primary group-hover:translate-x-1" />
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
-              </div>
-            </Card>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold flex items-center justify-between">
+                    {title}
+                    <ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:text-primary group-hover:translate-x-1" />
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
+                </div>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
@@ -156,27 +159,32 @@ function Index() {
           </div>
 
           <div className="mt-14 grid lg:grid-cols-[1fr_280px] gap-6">
-            {/* Game canvas placeholder */}
+            {/* Game canvas */}
             <div className="relative rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden min-h-[420px] flex flex-col">
               <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 text-xs font-mono text-white/60">
                 <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-neon" /> reflex_arena.exe</span>
                 <span>READY</span>
               </div>
-              <div className="flex-1 relative flex items-center justify-center">
+              <div className="flex-1 relative flex items-center justify-center bg-black/50">
                 <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-                {/* Floating targets */}
-                <div className="absolute top-12 left-16 h-14 w-14 rounded-full bg-neon/20 border-2 border-neon flex items-center justify-center font-bold animate-float" style={{ color: "var(--neon)" }}>7</div>
-                <div className="absolute bottom-16 right-20 h-12 w-12 rounded-full bg-orange/20 border-2 border-orange flex items-center justify-center font-bold animate-float" style={{ color: "var(--orange)", animationDelay: "1s" }}>×</div>
-                <div className="absolute top-1/2 left-1/3 h-10 w-10 rounded-full bg-primary/30 border-2 border-primary-glow flex items-center justify-center text-sm font-bold animate-float" style={{ animationDelay: "0.5s" }}>√</div>
+                
+                {/* 3. DITAMBAHKAN IFRAME UNTUK WADAH GAME */}
+                <iframe 
+                  src="MASUKKAN_LINK_GAME_KAMU_DI_SINI" 
+                  className="absolute inset-0 w-full h-full border-0 z-10"
+                  title="Game Matematika"
+                  allowFullScreen
+                ></iframe>
 
-                <div className="text-center z-10">
-                  <div className="font-display text-3xl font-bold">12 + 8 × 3 = ?</div>
-                  <div className="mt-2 text-xs font-mono text-white/40">// game canvas — siap di-embed</div>
+                {/* Teks di bawah ini akan tertutup oleh game saat linknya dimasukkan */}
+                <div className="text-center z-0">
+                  <div className="font-display text-3xl font-bold text-white/20">Wadah Game</div>
+                  <div className="mt-2 text-xs font-mono text-white/20">// siap di-embed</div>
                 </div>
               </div>
               <div className="px-5 py-3 border-t border-white/10 flex items-center justify-between">
                 <div className="text-xs font-mono text-white/50">mode: classic · time: 60s</div>
-                <Button size="sm" className="bg-neon text-dark-arena hover:bg-neon/90 font-bold animate-pulse-glow">
+                <Button size="sm" className="bg-neon text-dark-arena hover:bg-neon/90 font-bold animate-pulse-glow z-20">
                   <Play className="h-3 w-3 mr-1 fill-current" /> Mulai Latihan
                 </Button>
               </div>
