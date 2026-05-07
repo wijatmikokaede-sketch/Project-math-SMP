@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Project matematika" },
+      { name: "description", content: "Pls jangan ada crash/bug dkk repot bikinnya 😭😭" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Project matematika" },
+      { property: "og:description", content: "Pls jangan ada crash/bug dkk repot bikinnya 😭😭" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Project matematika" },
+      { name: "twitter:description", content: "Pls jangan ada crash/bug dkk repot bikinnya 😭😭" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/c9f440cd-861d-4314-8254-2518cdd4a90c" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/c9f440cd-861d-4314-8254-2518cdd4a90c" },
     ],
     links: [
       {
