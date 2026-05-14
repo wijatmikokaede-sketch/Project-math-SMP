@@ -111,16 +111,6 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  /* Tech grid background tokens */
-  --bg-base: #0a0a0a;
-  --bg-panel: rgba(20, 20, 22, 0.72);
-  --grid-line: rgba(255, 255, 255, 0.045);
-  --accent: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.55);
-  --ink: rgba(255, 255, 255, 0.92);
-  --ink-muted: rgba(255, 255, 255, 0.58);
-  --ink-faint: rgba(255, 255, 255, 0.35);
-  --hairline: rgba(255, 255, 255, 0.08);
 }
 
 .dark {
@@ -188,15 +178,4 @@
   .animate-float { animation: float-y 5s ease-in-out infinite; }
   .animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
   .animate-fade-up { animation: fade-up 0.7s ease-out both; }
-
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 0.4; transform: translate(-50%, 0) scale(1); }
-    50% { opacity: 0.6; transform: translate(-50%, 0) scale(1.05); }
-  }
-  @keyframes pulse-slower {
-    0%, 100% { opacity: 0.18; transform: scale(1); }
-    50% { opacity: 0.32; transform: scale(1.08); }
-  }
-  .animate-pulse-slow { animation: pulse-slow 9s ease-in-out infinite; }
-  .animate-pulse-slower { animation: pulse-slower 13s ease-in-out infinite; }
 }
