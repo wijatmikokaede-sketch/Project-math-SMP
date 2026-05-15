@@ -15,6 +15,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
+import { Route as AdminConundrumsRouteImport } from './routes/admin.conundrums'
 
 const QuotesRoute = QuotesRouteImport.update({
   id: '/quotes',
@@ -46,12 +47,18 @@ const AdminQuotesRoute = AdminQuotesRouteImport.update({
   path: '/quotes',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminConundrumsRoute = AdminConundrumsRouteImport.update({
+  id: '/conundrums',
+  path: '/conundrums',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/conundrum': typeof ConundrumRoute
   '/quotes': typeof QuotesRoute
+  '/admin/conundrums': typeof AdminConundrumsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/conundrum': typeof ConundrumRoute
   '/quotes': typeof QuotesRoute
+  '/admin/conundrums': typeof AdminConundrumsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/conundrum': typeof ConundrumRoute
   '/quotes': typeof QuotesRoute
+  '/admin/conundrums': typeof AdminConundrumsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -78,16 +87,24 @@ export interface FileRouteTypes {
     | '/admin'
     | '/conundrum'
     | '/quotes'
+    | '/admin/conundrums'
     | '/admin/quotes'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/conundrum' | '/quotes' | '/admin/quotes' | '/admin'
+  to:
+    | '/'
+    | '/conundrum'
+    | '/quotes'
+    | '/admin/conundrums'
+    | '/admin/quotes'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/conundrum'
     | '/quotes'
+    | '/admin/conundrums'
     | '/admin/quotes'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -143,15 +160,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminQuotesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/conundrums': {
+      id: '/admin/conundrums'
+      path: '/conundrums'
+      fullPath: '/admin/conundrums'
+      preLoaderRoute: typeof AdminConundrumsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminConundrumsRoute: typeof AdminConundrumsRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminConundrumsRoute: AdminConundrumsRoute,
   AdminQuotesRoute: AdminQuotesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
