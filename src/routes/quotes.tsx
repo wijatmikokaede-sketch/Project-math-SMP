@@ -1,4 +1,5 @@
-import { createFileRoute, useServerFn } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,7 +34,7 @@ function QuotesPage() {
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   const ordered = useMemo(() => {
-    const todayIdx = quotes.findIndex((q) => q.published_date === today);
+    const todayIdx = quotes.findIndex((q: { published_date: string }) => q.published_date === today);
     if (todayIdx > 0) {
       return [quotes[todayIdx], ...quotes.slice(0, todayIdx), ...quotes.slice(todayIdx + 1)];
     }
