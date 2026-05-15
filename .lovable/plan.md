@@ -1,52 +1,62 @@
-## Tujuan
 
-Menampilkan indikator kecil di halaman project (`/`) yang memberi tahu kamu apakah versi yang sedang berjalan di Lovable **sudah sama** dengan commit terbaru di GitHub, atau **masih ketinggalan** (artinya sync belum selesai / build belum jalan).
+# Tambah Halaman Quotes & Weekly Conundrum
 
-## Cara kerja (penjelasan singkat)
+Halaman home (`/`) **tidak diubah sama sekali**. Semua fitur baru di route terpisah.
 
-```text
-[ Build Lovable ]                 [ GitHub repo ]
-  commit SHA di-embed              commit terbaru
-  saat build (build-time)          diambil via API publik
-        │                                 │
-        └──────────► dibandingkan ◄──────┘
-                          │
-                ┌─────────┴─────────┐
-              sama?               beda?
-                │                   │
-          🟢 Tersinkron       🟡 Menunggu sync
+## Struktur halaman baru
+
+```
+/quotes              → Quote of the Day (publik)
+/conundrum           → Weekly Conundrum (publik, tampilkan soal + jawaban)
+/admin               → Login admin (sudah ada infra auth)
+/admin/quotes        → CRUD quotes (admin only)
+/admin/conundrums    → CRUD conundrums (admin only)
 ```
 
-- Saat build, SHA commit aktif disimpan ke `import.meta.env.VITE_BUILD_COMMIT` (via `vite.config.ts` menggunakan `git rev-parse HEAD`).
-- Di browser, sebuah hook memanggil `https://api.github.com/repos/<owner>/<repo>/commits/main` (endpoint publik, tanpa token, polling tiap 30 detik).
-- Bandingkan 2 SHA → tampilkan badge.
+Header navigasi baru: **Home · Quotes · Conundrum** (di-render di `__root.tsx`, di-hide di route home agar tampilan home tetap utuh — atau ditampilkan tipis, akan saya tunjukkan saat implement).
 
-## Yang akan dibuat / diubah
+## Database — sudah siap ✅
 
-1. **`vite.config.ts`** — inject `VITE_BUILD_COMMIT` (7 karakter pertama dari `git rev-parse HEAD`) ke `define`. Fallback `"dev"` kalau git tidak tersedia.
-2. **`src/components/GitHubSyncBadge.tsx`** (baru) — komponen badge dengan 3 state:
-   - 🟢 **Tersinkron** — SHA build = SHA GitHub
-   - 🟡 **Menunggu sync…** — SHA berbeda (commit baru belum ke-build)
-   - ⚪ **Tidak diketahui** — repo belum di-set / fetch gagal
-   - Tooltip menampilkan SHA build vs SHA GitHub + waktu cek terakhir + tombol "Cek ulang".
-3. **`src/lib/github-config.ts`** (baru) — konstanta `GITHUB_OWNER`, `GITHUB_REPO`, `GITHUB_BRANCH` (default `"main"`). Kamu cukup edit 1 file ini sekali untuk memasukkan nama repo GitHub-mu.
-4. **`src/routes/index.tsx`** — pasang `<GitHubSyncBadge />` di header (di sebelah tombol "Mulai") supaya kelihatan di setiap kunjungan halaman utama.
+Tabel `quotes`, `conundrums`, `user_roles` sudah ada dengan RLS yang benar:
+- Publik bisa baca, hanya admin (cek via `has_role`) yang bisa CRUD.
+- Trigger `handle_new_user_role`: user pertama otomatis jadi admin.
 
-## Detail teknis
+**Tidak perlu migration baru.** Cukup pakai yang sudah ada.
 
-- **Polling**: `setInterval` 30 detik + refetch saat tab kembali fokus (`visibilitychange`). Tidak pakai TanStack Query agar tidak menambah dependensi state — cukup `useEffect`.
-- **Rate limit GitHub**: API publik = 60 req/jam/IP. Polling 30 detik = 120 req/jam → terlalu sering. Akan dipakai **60 detik** + jeda saat tab tidak aktif. Aman untuk pemakaian pribadi.
-- **Tanpa token**: hanya repo publik. Kalau repo-mu privat, badge akan menampilkan "Tidak diketahui" — solusinya pakai token GitHub via Lovable Cloud secret (bisa ditambahkan nanti kalau perlu).
-- **SSR aman**: fetch hanya di `useEffect` (client-side), jadi tidak memicu request saat prerender.
+## Fitur per halaman
 
-## Yang perlu kamu siapkan
+### `/quotes` — Quote of the Day
+- Ambil quote dengan `published_date` hari ini (fallback: quote terbaru).
+- Tampilkan: text besar, author, source link kalau ada.
+- Tombol "Quote sebelumnya" untuk arsip (paginated).
+- Background tipis: gradient halus + grain/noise SVG overlay (opacity ~5%).
 
-Setelah plan ini di-approve, beri tahu aku **owner & nama repo GitHub-mu** (contoh: `username/art-of-math`) supaya aku isi `github-config.ts`. Atau kamu bisa edit sendiri file itu setelah dibuat.
+### `/conundrum` — Weekly Conundrum
+- Ambil conundrum dengan `week_start_date` di minggu ini.
+- Tampilkan: title, problem (rendered, support paragraf).
+- Tombol "Tampilkan jawaban" (toggle reveal — jawaban disembunyikan default).
+- Arsip minggu sebelumnya di bagian bawah.
 
-## Batasan jujur
+### `/admin/quotes` & `/admin/conundrums`
+- Form input + list + edit/delete.
+- Pakai `requireSupabaseAuth` di server function untuk semua mutasi.
+- Redirect ke `/admin` (login) kalau belum auth.
 
-Indikator ini membandingkan **commit GitHub vs commit yang di-build Lovable**. Jadi:
-- 🟢 hijau = build Lovable sudah pakai commit terbaru GitHub.
-- 🟡 kuning = ada commit baru di GitHub yang **belum ter-build** di preview Lovable (sync belum selesai, atau build error).
+## Visual & interaksi
 
-Ini bukan API resmi Lovable — tidak bisa membaca status internal sync engine Lovable, tapi efeknya sama untuk tujuanmu: tahu kapan perubahan GitHub sudah masuk ke preview.
+- **Background tipis**: subtle radial gradient + SVG noise/dots pattern, beda accent untuk Quotes (warm) vs Conundrum (cool). Konsisten dengan token di `src/styles.css`.
+- **Web haptics**: util `triggerHaptic(pattern)` pakai `navigator.vibrate()`. Dipanggil di setiap klik button/icon (back, reveal answer, save, copy, dll). Silently no-op di iOS/desktop.
+- **Animasi**: framer-motion untuk fade-in saat masuk halaman & saat reveal jawaban.
+
+## Technical notes
+
+- Server functions baru di `src/lib/quotes.functions.ts` & `src/lib/conundrums.functions.ts` (read publik via `supabaseAdmin`, write via `requireSupabaseAuth` + cek `has_role`).
+- Public read pakai `createServerFn` + `supabaseAdmin` dengan WHERE eksplisit (sesuai pedoman: hindari policy `TO anon` lebar).
+- Auth login form sederhana di `/admin` (email/password — tidak ada Google OAuth karena belum dikonfigurasi).
+- Util haptic di `src/lib/haptics.ts`.
+
+## Yang TIDAK dilakukan
+
+- ❌ Tidak menyentuh `src/routes/index.tsx` atau komponen home lainnya.
+- ❌ Tidak buat integrasi Instagram (sesuai pilihan kamu: manual input).
+- ❌ Tidak buat sistem submit jawaban user untuk conundrum.
