@@ -37,6 +37,8 @@ function Index() {
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#galeri" className="hover:text-foreground transition">Galeri</a>
             <a href="#reflex" className="hover:text-foreground transition">Math Reflex</a>
+            <Link to="/quotes" className="hover:text-foreground transition">Quotes</Link>
+            <Link to="/conundrum" className="hover:text-foreground transition">Conundrum</Link>
             <a href="#tentang" className="hover:text-foreground transition">Tentang</a>
           </nav>
           <div className="flex items-center gap-2">
