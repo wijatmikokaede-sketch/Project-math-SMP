@@ -1,62 +1,55 @@
+## Tambahkan BGM (Background Music) ke Semua Halaman
 
-# Tambah Halaman Quotes & Weekly Conundrum
+### Yang dibangun
 
-Halaman home (`/`) **tidak diubah sama sekali**. Semua fitur baru di route terpisah.
+1. **Komponen `<BGMPlayer />`** global di `src/routes/__root.tsx` — selalu hidup, tidak reset saat pindah halaman karena di-mount di root layout.
+2. **Sumber audio fleksibel**: mendukung URL eksternal (mis. file MP3 yang Anda host di mana saja) *atau* file yang Anda upload ke storage. Daftar track dikelola via admin panel.
+3. **Auto-play setelah interaksi pertama** — listener global `pointerdown`/`keydown` di window menyalakan musik begitu user klik/tap di mana saja (mematuhi kebijakan autoplay browser).
+4. **Kontrol mengambang** di pojok kanan bawah: tombol play/pause, slider volume kecil, dan tombol skip (kalau ada >1 track). Pakai haptics yang sudah ada.
+5. **Persistensi preferensi** via `localStorage`: volume terakhir, status mute, dan track index — jadi posisi tidak hilang antar halaman/refresh.
+6. **Loop & shuffle**: kalau cuma 1 track → loop. Kalau banyak → auto-next + opsi shuffle.
 
-## Struktur halaman baru
+### Halaman cakupan
 
-```
-/quotes              → Quote of the Day (publik)
-/conundrum           → Weekly Conundrum (publik, tampilkan soal + jawaban)
-/admin               → Login admin (sudah ada infra auth)
-/admin/quotes        → CRUD quotes (admin only)
-/admin/conundrums    → CRUD conundrums (admin only)
-```
+Semua halaman (homepage, /quotes, /conundrum, /admin). BGM tetap menyala mulus antar navigasi karena player di-mount di root, bukan per-route.
 
-Header navigasi baru: **Home · Quotes · Conundrum** (di-render di `__root.tsx`, di-hide di route home agar tampilan home tetap utuh — atau ditampilkan tipis, akan saya tunjukkan saat implement).
+### Admin panel: kelola track
 
-## Database — sudah siap ✅
+Halaman baru `/admin/bgm`:
+- Form tambah track: judul + URL (paste link MP3) **atau** upload file
+- List track dengan tombol hapus & reorder
+- Toggle "BGM aktif" global (kalau dimatikan, player tidak muncul sama sekali)
 
-Tabel `quotes`, `conundrums`, `user_roles` sudah ada dengan RLS yang benar:
-- Publik bisa baca, hanya admin (cek via `has_role`) yang bisa CRUD.
-- Trigger `handle_new_user_role`: user pertama otomatis jadi admin.
+### Database
 
-**Tidak perlu migration baru.** Cukup pakai yang sudah ada.
+Tabel baru `bgm_tracks`:
+- `title` (text)
+- `audio_url` (text) — bisa URL eksternal atau URL Supabase storage
+- `sort_order` (int)
+- `is_active` (bool)
 
-## Fitur per halaman
+Plus bucket storage `bgm` (public read) untuk file MP3 yang di-upload.
 
-### `/quotes` — Quote of the Day
-- Ambil quote dengan `published_date` hari ini (fallback: quote terbaru).
-- Tampilkan: text besar, author, source link kalau ada.
-- Tombol "Quote sebelumnya" untuk arsip (paginated).
-- Background tipis: gradient halus + grain/noise SVG overlay (opacity ~5%).
+RLS:
+- Public SELECT untuk track yang `is_active = true`
+- INSERT/UPDATE/DELETE hanya admin (`has_role(auth.uid(), 'admin')`)
 
-### `/conundrum` — Weekly Conundrum
-- Ambil conundrum dengan `week_start_date` di minggu ini.
-- Tampilkan: title, problem (rendered, support paragraf).
-- Tombol "Tampilkan jawaban" (toggle reveal — jawaban disembunyikan default).
-- Arsip minggu sebelumnya di bagian bawah.
+### Technical notes
 
-### `/admin/quotes` & `/admin/conundrums`
-- Form input + list + edit/delete.
-- Pakai `requireSupabaseAuth` di server function untuk semua mutasi.
-- Redirect ke `/admin` (login) kalau belum auth.
+- Pakai `<audio>` HTML5 native (ringan, tidak perlu library)
+- `preload="metadata"` supaya tidak boros bandwidth
+- Volume default 30% (cukup pelan untuk BGM)
+- Fade-in 1 detik saat mulai play untuk mencegah kejutan
+- Komponen player dibuat *client-only* (guard dengan `useEffect`) supaya tidak crash SSR
 
-## Visual & interaksi
+### File yang akan dibuat/diubah
 
-- **Background tipis**: subtle radial gradient + SVG noise/dots pattern, beda accent untuk Quotes (warm) vs Conundrum (cool). Konsisten dengan token di `src/styles.css`.
-- **Web haptics**: util `triggerHaptic(pattern)` pakai `navigator.vibrate()`. Dipanggil di setiap klik button/icon (back, reveal answer, save, copy, dll). Silently no-op di iOS/desktop.
-- **Animasi**: framer-motion untuk fade-in saat masuk halaman & saat reveal jawaban.
+- **Baru**: `src/components/BGMPlayer.tsx`, `src/lib/bgm.functions.ts`, `src/routes/admin.bgm.tsx`
+- **Edit**: `src/routes/__root.tsx` (mount player), `src/routes/admin.index.tsx` (link ke admin BGM baru)
+- **Migrasi DB**: tabel `bgm_tracks` + RLS + bucket storage `bgm`
 
-## Technical notes
+### Yang TIDAK dilakukan
 
-- Server functions baru di `src/lib/quotes.functions.ts` & `src/lib/conundrums.functions.ts` (read publik via `supabaseAdmin`, write via `requireSupabaseAuth` + cek `has_role`).
-- Public read pakai `createServerFn` + `supabaseAdmin` dengan WHERE eksplisit (sesuai pedoman: hindari policy `TO anon` lebar).
-- Auth login form sederhana di `/admin` (email/password — tidak ada Google OAuth karena belum dikonfigurasi).
-- Util haptic di `src/lib/haptics.ts`.
-
-## Yang TIDAK dilakukan
-
-- ❌ Tidak menyentuh `src/routes/index.tsx` atau komponen home lainnya.
-- ❌ Tidak buat integrasi Instagram (sesuai pilihan kamu: manual input).
-- ❌ Tidak buat sistem submit jawaban user untuk conundrum.
+- Tidak generate musik AI (Anda akan supply track sendiri)
+- Tidak ada playlist per-halaman (musik sama di semua halaman, simpel dulu)
+- Tidak ada visualizer/equalizer
