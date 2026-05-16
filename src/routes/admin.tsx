@@ -58,6 +58,7 @@ function AdminLayout() {
           <nav className="flex gap-2">
             <AdminTab to="/admin/quotes" label="Quotes" />
             <AdminTab to="/admin/conundrums" label="Conundrums" />
+            <AdminTab to="/admin/bgm" label="BGM" />
           </nav>
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <span className="hidden sm:inline">{session.email}</span>
@@ -79,7 +80,7 @@ function AdminLayout() {
   );
 }
 
-function AdminTab({ to, label }: { to: "/admin/quotes" | "/admin/conundrums"; label: string }) {
+function AdminTab({ to, label }: { to: "/admin/quotes" | "/admin/conundrums" | "/admin/bgm"; label: string }) {
   return (
     <Link
       to={to}
