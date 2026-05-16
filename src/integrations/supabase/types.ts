@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      bgm_tracks: {
+        Row: {
+          audio_url: string
+          created_at: string
+          id: string
+          is_active: boolean
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          audio_url: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          audio_url?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
       conundrum_submissions: {
         Row: {
           answer: string
