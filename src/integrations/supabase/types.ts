@@ -103,6 +103,27 @@ export type Database = {
         }
         Relationships: []
       }
+      leaderboard: {
+        Row: {
+          created_at: string
+          id: number
+          score: number
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          score: number
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          score?: number
+          username?: string
+        }
+        Relationships: []
+      }
       quotes: {
         Row: {
           author: string | null
