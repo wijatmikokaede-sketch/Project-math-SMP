@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as Materi3RouteImport } from './routes/materi-3'
 import { Route as Materi2RouteImport } from './routes/materi-2'
 import { Route as Materi1RouteImport } from './routes/materi-1'
 import { Route as ConundrumRouteImport } from './routes/conundrum'
@@ -23,6 +24,11 @@ import { Route as AdminBgmRouteImport } from './routes/admin.bgm'
 const QuotesRoute = QuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Materi3Route = Materi3RouteImport.update({
+  id: '/materi-3',
+  path: '/materi-3',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Materi2Route = Materi2RouteImport.update({
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/conundrum': typeof ConundrumRoute
   '/materi-1': typeof Materi1Route
   '/materi-2': typeof Materi2Route
+  '/materi-3': typeof Materi3Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/conundrum': typeof ConundrumRoute
   '/materi-1': typeof Materi1Route
   '/materi-2': typeof Materi2Route
+  '/materi-3': typeof Materi3Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/conundrum': typeof ConundrumRoute
   '/materi-1': typeof Materi1Route
   '/materi-2': typeof Materi2Route
+  '/materi-3': typeof Materi3Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/conundrum'
     | '/materi-1'
     | '/materi-2'
+    | '/materi-3'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/conundrum'
     | '/materi-1'
     | '/materi-2'
+    | '/materi-3'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/conundrum'
     | '/materi-1'
     | '/materi-2'
+    | '/materi-3'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   ConundrumRoute: typeof ConundrumRoute
   Materi1Route: typeof Materi1Route
   Materi2Route: typeof Materi2Route
+  Materi3Route: typeof Materi3Route
   QuotesRoute: typeof QuotesRoute
 }
 
@@ -161,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/quotes'
       preLoaderRoute: typeof QuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materi-3': {
+      id: '/materi-3'
+      path: '/materi-3'
+      fullPath: '/materi-3'
+      preLoaderRoute: typeof Materi3RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/materi-2': {
@@ -251,6 +271,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConundrumRoute: ConundrumRoute,
   Materi1Route: Materi1Route,
   Materi2Route: Materi2Route,
+  Materi3Route: Materi3Route,
   QuotesRoute: QuotesRoute,
 }
 export const routeTree = rootRouteImport
