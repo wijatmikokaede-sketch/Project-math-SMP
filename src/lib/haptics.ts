@@ -17,4 +17,5 @@ export const haptics = {
   soft: () => triggerHaptic(5),
   success: () => triggerHaptic([10, 30, 10]),
   reveal: () => triggerHaptic([15, 25, 40]),
+  error: () => triggerHaptic([40, 30, 40]),
 };
