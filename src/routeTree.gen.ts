@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as Materi1RouteImport } from './routes/materi-1'
 import { Route as ConundrumRouteImport } from './routes/conundrum'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -21,6 +22,11 @@ import { Route as AdminBgmRouteImport } from './routes/admin.bgm'
 const QuotesRoute = QuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Materi1Route = Materi1RouteImport.update({
+  id: '/materi-1',
+  path: '/materi-1',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConundrumRoute = ConundrumRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/conundrum': typeof ConundrumRoute
+  '/materi-1': typeof Materi1Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/conundrum': typeof ConundrumRoute
+  '/materi-1': typeof Materi1Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/conundrum': typeof ConundrumRoute
+  '/materi-1': typeof Materi1Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/conundrum'
+    | '/materi-1'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/conundrum'
+    | '/materi-1'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/conundrum'
+    | '/materi-1'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
@@ -125,6 +137,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   ConundrumRoute: typeof ConundrumRoute
+  Materi1Route: typeof Materi1Route
   QuotesRoute: typeof QuotesRoute
 }
 
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/quotes'
       preLoaderRoute: typeof QuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materi-1': {
+      id: '/materi-1'
+      path: '/materi-1'
+      fullPath: '/materi-1'
+      preLoaderRoute: typeof Materi1RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/conundrum': {
@@ -209,8 +229,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   ConundrumRoute: ConundrumRoute,
+  Materi1Route: Materi1Route,
   QuotesRoute: QuotesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
