@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight, Sigma, Shapes, LineChart, Calculator, Brain, Target, Zap, Trophy, Play } from "lucide-react";
 import { GitHubSyncBadge } from "@/components/GitHubSyncBadge";
 import { LeaderboardSection } from "@/components/LeaderboardSection";
-import { GameSection } from "@/components/GameSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,7 +40,6 @@ function Index() {
             <a href="#reflex" className="hover:text-foreground transition">Math Reflex</a>
             <Link to="/quotes" className="hover:text-foreground transition">Quotes</Link>
             <Link to="/conundrum" className="hover:text-foreground transition">Conundrum</Link>
-            <a href="#game" className="hover:text-foreground transition">Game</a>
             <a href="#leaderboard" className="hover:text-foreground transition">Leaderboard</a>
             <a href="#tentang" className="hover:text-foreground transition">Tentang</a>
           </nav>
@@ -176,9 +174,10 @@ function Index() {
                 
                 {/* 3. DITAMBAHKAN IFRAME UNTUK WADAH GAME */}
                 <iframe 
-                  src="MASUKKAN_LINK_GAME_KAMU_DI_SINI" 
+                  src="https://itch.io/embed-upload/17589113?color=333333"
                   className="absolute inset-0 w-full h-full border-0 z-10"
                   title="Game Matematika"
+                  allow="autoplay; fullscreen; gamepad *;"
                   allowFullScreen
                 ></iframe>
 
@@ -220,7 +219,6 @@ function Index() {
       </section>
 
       {/* LEADERBOARD */}
-      <GameSection />
       <LeaderboardSection />
 
       {/* FOOTER */}
