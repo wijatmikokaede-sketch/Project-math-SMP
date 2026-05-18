@@ -178,4 +178,24 @@
   .animate-float { animation: float-y 5s ease-in-out infinite; }
   .animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
   .animate-fade-up { animation: fade-up 0.7s ease-out both; }
+  @keyframes page-in {
+    0% { opacity: 0; transform: translateY(28px) scale(0.985); filter: blur(6px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  @keyframes hero-reveal {
+    0% { opacity: 0; transform: translateY(40px) scale(0.94); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes slide-in-soft {
+    0% { opacity: 0; transform: translateY(18px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer-ring {
+    0%, 100% { box-shadow: 0 30px 80px -30px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.4) inset; }
+    50% { box-shadow: 0 40px 100px -25px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.7) inset; }
+  }
+  .animate-page-in { animation: page-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-hero-reveal { animation: hero-reveal 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-slide-soft { animation: slide-in-soft 0.8s ease-out both; }
+  .animate-shimmer-ring { animation: shimmer-ring 4s ease-in-out infinite; }
 }
