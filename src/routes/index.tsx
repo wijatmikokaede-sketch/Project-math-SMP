@@ -174,7 +174,7 @@ function Index() {
                 
                 {/* 3. DITAMBAHKAN IFRAME UNTUK WADAH GAME */}
                 <iframe 
-                  src="https://itch.io/embed-upload/17589113?color=333333"
+                  src="https://itch.io/embed-upload/17612282?color=333333"
                   className="absolute inset-0 w-full h-full border-0 z-10"
                   title="Game Matematika"
                   allow="autoplay; fullscreen; gamepad *;"
