@@ -228,7 +228,7 @@ function Index() {
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-hero text-primary-foreground text-xs font-bold">∑</span>
             <span className="font-display font-semibold text-foreground">MathQuest SMP</span>
           </div>
-          <div>Dibuat oleh <span className="text-foreground font-medium">Siswa Kelas SMP</span> · © {new Date().getFullYear()}</div>
+          <div>Dibuat oleh <span className="text-foreground font-medium">Bhima, Dhira, Kaede, Ellos</span> · © {new Date().getFullYear()}</div>
         </div>
       </footer>
     </div>
