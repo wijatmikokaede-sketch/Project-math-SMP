@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as Materi6RouteImport } from './routes/materi-6'
 import { Route as Materi5RouteImport } from './routes/materi-5'
 import { Route as Materi4RouteImport } from './routes/materi-4'
 import { Route as Materi3RouteImport } from './routes/materi-3'
@@ -18,14 +19,21 @@ import { Route as Materi1RouteImport } from './routes/materi-1'
 import { Route as ConundrumRouteImport } from './routes/conundrum'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminLeaderboardRouteImport } from './routes/admin.leaderboard'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
+import { Route as AdminHotsRouteImport } from './routes/admin.hots'
 import { Route as AdminConundrumsRouteImport } from './routes/admin.conundrums'
 import { Route as AdminBgmRouteImport } from './routes/admin.bgm'
 
 const QuotesRoute = QuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Materi6Route = Materi6RouteImport.update({
+  id: '/materi-6',
+  path: '/materi-6',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Materi5Route = Materi5RouteImport.update({
@@ -68,6 +76,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLeaderboardRoute = AdminLeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -76,6 +89,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminQuotesRoute = AdminQuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHotsRoute = AdminHotsRouteImport.update({
+  id: '/hots',
+  path: '/hots',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminConundrumsRoute = AdminConundrumsRouteImport.update({
@@ -98,9 +116,12 @@ export interface FileRoutesByFullPath {
   '/materi-3': typeof Materi3Route
   '/materi-4': typeof Materi4Route
   '/materi-5': typeof Materi5Route
+  '/materi-6': typeof Materi6Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
+  '/admin/hots': typeof AdminHotsRoute
+  '/admin/leaderboard': typeof AdminLeaderboardRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -112,9 +133,12 @@ export interface FileRoutesByTo {
   '/materi-3': typeof Materi3Route
   '/materi-4': typeof Materi4Route
   '/materi-5': typeof Materi5Route
+  '/materi-6': typeof Materi6Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
+  '/admin/hots': typeof AdminHotsRoute
+  '/admin/leaderboard': typeof AdminLeaderboardRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -128,9 +152,12 @@ export interface FileRoutesById {
   '/materi-3': typeof Materi3Route
   '/materi-4': typeof Materi4Route
   '/materi-5': typeof Materi5Route
+  '/materi-6': typeof Materi6Route
   '/quotes': typeof QuotesRoute
   '/admin/bgm': typeof AdminBgmRoute
   '/admin/conundrums': typeof AdminConundrumsRoute
+  '/admin/hots': typeof AdminHotsRoute
+  '/admin/leaderboard': typeof AdminLeaderboardRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -145,9 +172,12 @@ export interface FileRouteTypes {
     | '/materi-3'
     | '/materi-4'
     | '/materi-5'
+    | '/materi-6'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
+    | '/admin/hots'
+    | '/admin/leaderboard'
     | '/admin/quotes'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -159,9 +189,12 @@ export interface FileRouteTypes {
     | '/materi-3'
     | '/materi-4'
     | '/materi-5'
+    | '/materi-6'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
+    | '/admin/hots'
+    | '/admin/leaderboard'
     | '/admin/quotes'
     | '/admin'
   id:
@@ -174,9 +207,12 @@ export interface FileRouteTypes {
     | '/materi-3'
     | '/materi-4'
     | '/materi-5'
+    | '/materi-6'
     | '/quotes'
     | '/admin/bgm'
     | '/admin/conundrums'
+    | '/admin/hots'
+    | '/admin/leaderboard'
     | '/admin/quotes'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -190,6 +226,7 @@ export interface RootRouteChildren {
   Materi3Route: typeof Materi3Route
   Materi4Route: typeof Materi4Route
   Materi5Route: typeof Materi5Route
+  Materi6Route: typeof Materi6Route
   QuotesRoute: typeof QuotesRoute
 }
 
@@ -200,6 +237,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/quotes'
       preLoaderRoute: typeof QuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materi-6': {
+      id: '/materi-6'
+      path: '/materi-6'
+      fullPath: '/materi-6'
+      preLoaderRoute: typeof Materi6RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/materi-5': {
@@ -258,6 +302,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/leaderboard': {
+      id: '/admin/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/admin/leaderboard'
+      preLoaderRoute: typeof AdminLeaderboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -270,6 +321,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/admin/quotes'
       preLoaderRoute: typeof AdminQuotesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/hots': {
+      id: '/admin/hots'
+      path: '/hots'
+      fullPath: '/admin/hots'
+      preLoaderRoute: typeof AdminHotsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/conundrums': {
@@ -292,6 +350,8 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminBgmRoute: typeof AdminBgmRoute
   AdminConundrumsRoute: typeof AdminConundrumsRoute
+  AdminHotsRoute: typeof AdminHotsRoute
+  AdminLeaderboardRoute: typeof AdminLeaderboardRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -299,6 +359,8 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminBgmRoute: AdminBgmRoute,
   AdminConundrumsRoute: AdminConundrumsRoute,
+  AdminHotsRoute: AdminHotsRoute,
+  AdminLeaderboardRoute: AdminLeaderboardRoute,
   AdminQuotesRoute: AdminQuotesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -314,6 +376,7 @@ const rootRouteChildren: RootRouteChildren = {
   Materi3Route: Materi3Route,
   Materi4Route: Materi4Route,
   Materi5Route: Materi5Route,
+  Materi6Route: Materi6Route,
   QuotesRoute: QuotesRoute,
 }
 export const routeTree = rootRouteImport
