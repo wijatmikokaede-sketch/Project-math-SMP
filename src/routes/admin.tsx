@@ -53,12 +53,14 @@ function AdminLayout() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <div className="mb-6 flex items-center justify-between">
-          <nav className="flex gap-2">
+      <div className="mx-auto max-w-4xl px-4 py-8">
+        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <nav className="flex flex-wrap gap-2">
             <AdminTab to="/admin/quotes" label="Quotes" />
             <AdminTab to="/admin/conundrums" label="Conundrums" />
+            <AdminTab to="/admin/hots" label="HOTS" />
             <AdminTab to="/admin/bgm" label="BGM" />
+            <AdminTab to="/admin/leaderboard" label="Leaderboard" />
           </nav>
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <span className="hidden sm:inline">{session.email}</span>
@@ -80,7 +82,13 @@ function AdminLayout() {
   );
 }
 
-function AdminTab({ to, label }: { to: "/admin/quotes" | "/admin/conundrums" | "/admin/bgm"; label: string }) {
+function AdminTab({
+  to,
+  label,
+}: {
+  to: "/admin/quotes" | "/admin/conundrums" | "/admin/hots" | "/admin/bgm" | "/admin/leaderboard";
+  label: string;
+}) {
   return (
     <Link
       to={to}
