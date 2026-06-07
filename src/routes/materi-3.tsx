@@ -25,8 +25,9 @@ const theme = {
 };
 
 function StatPage() {
-  const [data, setData] = useState<number[]>([3, 5, 5, 7, 9, 12, 4, 8]);
+  const [data, setData] = useState<number[]>([]);
   const [input, setInput] = useState("");
+  const [lastInput, setLastInput] = useState<number | null>(null);
 
   const stats = useMemo(() => {
     if (data.length === 0) return { mean: 0, median: 0, mode: [] as number[], min: 0, max: 0 };
@@ -42,11 +43,12 @@ function StatPage() {
     return { mean, median, mode, min: sorted[0], max: sorted.at(-1)! };
   }, [data]);
 
-  const add = () => {
-    const n = Number(input);
-    if (Number.isFinite(n) && data.length < 24) {
-      setData((d) => [...d, n]);
-      setInput("");
+  const add = (value?: number) => {
+    const raw = value !== undefined ? value : Number(input);
+    if (Number.isFinite(raw) && data.length < 24) {
+      setData((d) => [...d, raw]);
+      setLastInput(raw);
+      if (value === undefined) setInput("");
       haptics.tap();
     }
   };
@@ -55,7 +57,9 @@ function StatPage() {
     haptics.soft();
   };
   const shuffle = () => {
-    setData(Array.from({ length: 8 }, () => Math.floor(Math.random() * 18) + 1));
+    const newData = Array.from({ length: 8 }, () => Math.floor(Math.random() * 18) + 1);
+    setData(newData);
+    setLastInput(newData.at(-1) ?? null);
     haptics.tap();
   };
 
