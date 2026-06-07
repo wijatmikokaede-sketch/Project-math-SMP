@@ -103,6 +103,45 @@ export type Database = {
         }
         Relationships: []
       }
+      hots_questions: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string | null
+          level: string
+          problem: string
+          solution: string
+          solution_image_url: string | null
+          title: string
+          updated_at: string
+          week_start_date: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          level?: string
+          problem?: string
+          solution?: string
+          solution_image_url?: string | null
+          title: string
+          updated_at?: string
+          week_start_date: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          level?: string
+          problem?: string
+          solution?: string
+          solution_image_url?: string | null
+          title?: string
+          updated_at?: string
+          week_start_date?: string
+        }
+        Relationships: []
+      }
       leaderboard: {
         Row: {
           created_at: string
