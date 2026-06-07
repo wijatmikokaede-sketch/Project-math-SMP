@@ -111,8 +111,11 @@ function StatPage() {
             placeholder="Tambah angka"
             className="px-3 py-2 rounded-md border bg-background flex-1 min-w-[160px] font-mono"
           />
-          <Button onClick={add} style={{ background: theme.accent }} className="text-white">
+          <Button onClick={() => add()} style={{ background: theme.accent }} className="text-white">
             <Plus className="h-4 w-4 mr-1" /> Tambah
+          </Button>
+          <Button variant="outline" onClick={() => lastInput !== null && add(lastInput)} disabled={lastInput === null}>
+            <Undo2 className="h-4 w-4 mr-1" /> Input Terakhir
           </Button>
           <Button variant="outline" onClick={shuffle}>
             <Shuffle className="h-4 w-4 mr-1" /> Acak
