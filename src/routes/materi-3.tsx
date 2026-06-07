@@ -77,22 +77,28 @@ function StatPage() {
       <Card className="p-8 md:p-10 border-2" style={{ borderColor: theme.accentSoft }}>
         {/* chart */}
         <div className="h-56 flex items-end gap-2 border-b pb-2" style={{ borderColor: theme.accentSoft }}>
-          {data.map((v, i) => (
-            <div key={i} className="flex-1 group relative flex flex-col items-center justify-end">
-              <div
-                className="w-full rounded-t-md transition-all duration-300 cursor-pointer relative"
-                style={{
-                  height: `${(v / maxVal) * 100}%`,
-                  background: `linear-gradient(180deg, ${theme.accent}, oklch(0.62 0.18 50 / 0.5))`,
-                }}
-                onClick={() => removeAt(i)}
-                title="Klik untuk hapus"
-              >
-                <X className="opacity-0 group-hover:opacity-100 absolute inset-0 m-auto h-4 w-4 text-white transition" />
-              </div>
-              <span className="mt-1 text-[10px] font-mono text-muted-foreground">{v}</span>
+          {data.length === 0 ? (
+            <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
+              Belum ada data — tambahkan angka pertama di bawah.
             </div>
-          ))}
+          ) : (
+            data.map((v, i) => (
+              <div key={i} className="flex-1 group relative flex flex-col items-center justify-end">
+                <div
+                  className="w-full rounded-t-md transition-all duration-300 cursor-pointer relative"
+                  style={{
+                    height: `${(v / maxVal) * 100}%`,
+                    background: `linear-gradient(180deg, ${theme.accent}, oklch(0.62 0.18 50 / 0.5))`,
+                  }}
+                  onClick={() => removeAt(i)}
+                  title="Klik untuk hapus"
+                >
+                  <X className="opacity-0 group-hover:opacity-100 absolute inset-0 m-auto h-4 w-4 text-white transition" />
+                </div>
+                <span className="mt-1 text-[10px] font-mono text-muted-foreground">{v}</span>
+              </div>
+            ))
+          )}
         </div>
 
         {/* input */}
