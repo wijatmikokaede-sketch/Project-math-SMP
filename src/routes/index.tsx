@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sigma, Shapes, LineChart, Calculator, Brain, Target, Zap, Trophy, Play } from "lucide-react";
+import { DiscoveryMenu } from "@/components/DiscoveryMenu";
 import { GitHubSyncBadge } from "@/components/GitHubSyncBadge";
 import { LeaderboardSection } from "@/components/LeaderboardSection";
 
@@ -45,7 +46,8 @@ function Index() {
           </nav>
           <div className="flex items-center gap-2">
             <GitHubSyncBadge />
-            <Button size="sm" className="bg-gradient-hero hover:opacity-90">Mulai</Button>
+            <Button size="sm" className="hidden sm:inline-flex bg-gradient-hero hover:opacity-90">Mulai</Button>
+            <DiscoveryMenu />
           </div>
         </div>
       </header>

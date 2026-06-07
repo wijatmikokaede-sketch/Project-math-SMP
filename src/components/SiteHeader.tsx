@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { DiscoveryMenu } from "@/components/DiscoveryMenu";
 import { haptics } from "@/lib/haptics";
 
 export function SiteHeader() {
@@ -12,10 +13,13 @@ export function SiteHeader() {
         >
           Art Of Math
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
-          <NavLink to="/quotes" label="Quotes" />
-          <NavLink to="/conundrum" label="Conundrum" />
-        </nav>
+        <div className="flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 text-sm">
+            <NavLink to="/quotes" label="Quotes" />
+            <NavLink to="/conundrum" label="Conundrum" />
+          </nav>
+          <DiscoveryMenu />
+        </div>
       </div>
     </header>
   );
