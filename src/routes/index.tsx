@@ -46,7 +46,8 @@ function Index() {
           </nav>
           <div className="flex items-center gap-2">
             <GitHubSyncBadge />
-            <Button size="sm" className="bg-gradient-hero hover:opacity-90">Mulai</Button>
+            <Button size="sm" className="hidden sm:inline-flex bg-gradient-hero hover:opacity-90">Mulai</Button>
+            <DiscoveryMenu />
           </div>
         </div>
       </header>
