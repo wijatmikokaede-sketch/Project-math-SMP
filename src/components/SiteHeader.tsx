@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { DiscoveryMenu } from "@/components/DiscoveryMenu";
 import { haptics } from "@/lib/haptics";
 
 export function SiteHeader() {
