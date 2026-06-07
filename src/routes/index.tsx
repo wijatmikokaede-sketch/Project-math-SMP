@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sigma, Shapes, LineChart, Calculator, Brain, Target, Zap, Trophy, Play } from "lucide-react";
+import { DiscoveryMenu } from "@/components/DiscoveryMenu";
 import { GitHubSyncBadge } from "@/components/GitHubSyncBadge";
 import { LeaderboardSection } from "@/components/LeaderboardSection";
 
