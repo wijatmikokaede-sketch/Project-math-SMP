@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { MateriPage } from "@/components/MateriPage";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, X, Shuffle } from "lucide-react";
+import { Plus, X, Shuffle, Undo2 } from "lucide-react";
 import { haptics } from "@/lib/haptics";
 
 export const Route = createFileRoute("/materi-3")({
