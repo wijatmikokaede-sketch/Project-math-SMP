@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { MateriPage } from "@/components/MateriPage";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, X, Shuffle } from "lucide-react";
+import { Plus, X, Shuffle, Undo2 } from "lucide-react";
 import { haptics } from "@/lib/haptics";
 
 export const Route = createFileRoute("/materi-3")({
@@ -25,8 +25,9 @@ const theme = {
 };
 
 function StatPage() {
-  const [data, setData] = useState<number[]>([3, 5, 5, 7, 9, 12, 4, 8]);
+  const [data, setData] = useState<number[]>([]);
   const [input, setInput] = useState("");
+  const [lastInput, setLastInput] = useState<number | null>(null);
 
   const stats = useMemo(() => {
     if (data.length === 0) return { mean: 0, median: 0, mode: [] as number[], min: 0, max: 0 };
@@ -42,11 +43,12 @@ function StatPage() {
     return { mean, median, mode, min: sorted[0], max: sorted.at(-1)! };
   }, [data]);
 
-  const add = () => {
-    const n = Number(input);
-    if (Number.isFinite(n) && data.length < 24) {
-      setData((d) => [...d, n]);
-      setInput("");
+  const add = (value?: number) => {
+    const raw = value !== undefined ? value : Number(input);
+    if (Number.isFinite(raw) && data.length < 24) {
+      setData((d) => [...d, raw]);
+      setLastInput(raw);
+      if (value === undefined) setInput("");
       haptics.tap();
     }
   };
@@ -55,7 +57,9 @@ function StatPage() {
     haptics.soft();
   };
   const shuffle = () => {
-    setData(Array.from({ length: 8 }, () => Math.floor(Math.random() * 18) + 1));
+    const newData = Array.from({ length: 8 }, () => Math.floor(Math.random() * 18) + 1);
+    setData(newData);
+    setLastInput(newData.at(-1) ?? null);
     haptics.tap();
   };
 
@@ -73,22 +77,28 @@ function StatPage() {
       <Card className="p-8 md:p-10 border-2" style={{ borderColor: theme.accentSoft }}>
         {/* chart */}
         <div className="h-56 flex items-end gap-2 border-b pb-2" style={{ borderColor: theme.accentSoft }}>
-          {data.map((v, i) => (
-            <div key={i} className="flex-1 group relative flex flex-col items-center justify-end">
-              <div
-                className="w-full rounded-t-md transition-all duration-300 cursor-pointer relative"
-                style={{
-                  height: `${(v / maxVal) * 100}%`,
-                  background: `linear-gradient(180deg, ${theme.accent}, oklch(0.62 0.18 50 / 0.5))`,
-                }}
-                onClick={() => removeAt(i)}
-                title="Klik untuk hapus"
-              >
-                <X className="opacity-0 group-hover:opacity-100 absolute inset-0 m-auto h-4 w-4 text-white transition" />
-              </div>
-              <span className="mt-1 text-[10px] font-mono text-muted-foreground">{v}</span>
+          {data.length === 0 ? (
+            <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
+              Belum ada data — tambahkan angka pertama di bawah.
             </div>
-          ))}
+          ) : (
+            data.map((v, i) => (
+              <div key={i} className="flex-1 group relative flex flex-col items-center justify-end">
+                <div
+                  className="w-full rounded-t-md transition-all duration-300 cursor-pointer relative"
+                  style={{
+                    height: `${(v / maxVal) * 100}%`,
+                    background: `linear-gradient(180deg, ${theme.accent}, oklch(0.62 0.18 50 / 0.5))`,
+                  }}
+                  onClick={() => removeAt(i)}
+                  title="Klik untuk hapus"
+                >
+                  <X className="opacity-0 group-hover:opacity-100 absolute inset-0 m-auto h-4 w-4 text-white transition" />
+                </div>
+                <span className="mt-1 text-[10px] font-mono text-muted-foreground">{v}</span>
+              </div>
+            ))
+          )}
         </div>
 
         {/* input */}
@@ -101,8 +111,11 @@ function StatPage() {
             placeholder="Tambah angka"
             className="px-3 py-2 rounded-md border bg-background flex-1 min-w-[160px] font-mono"
           />
-          <Button onClick={add} style={{ background: theme.accent }} className="text-white">
+          <Button onClick={() => add()} style={{ background: theme.accent }} className="text-white">
             <Plus className="h-4 w-4 mr-1" /> Tambah
+          </Button>
+          <Button variant="outline" onClick={() => lastInput !== null && add(lastInput)} disabled={lastInput === null}>
+            <Undo2 className="h-4 w-4 mr-1" /> Input Terakhir
           </Button>
           <Button variant="outline" onClick={shuffle}>
             <Shuffle className="h-4 w-4 mr-1" /> Acak

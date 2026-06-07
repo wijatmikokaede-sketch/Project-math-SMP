@@ -19,9 +19,9 @@ import { Route as Materi1RouteImport } from './routes/materi-1'
 import { Route as ConundrumRouteImport } from './routes/conundrum'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminLeaderboardRouteImport } from './routes/admin.leaderboard'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
+import { Route as AdminLeaderboardRouteImport } from './routes/admin.leaderboard'
 import { Route as AdminHotsRouteImport } from './routes/admin.hots'
 import { Route as AdminConundrumsRouteImport } from './routes/admin.conundrums'
 import { Route as AdminBgmRouteImport } from './routes/admin.bgm'
@@ -76,11 +76,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminLeaderboardRoute = AdminLeaderboardRouteImport.update({
-  id: '/leaderboard',
-  path: '/leaderboard',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -89,6 +84,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminQuotesRoute = AdminQuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeaderboardRoute = AdminLeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminHotsRoute = AdminHotsRouteImport.update({
@@ -302,13 +302,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/leaderboard': {
-      id: '/admin/leaderboard'
-      path: '/leaderboard'
-      fullPath: '/admin/leaderboard'
-      preLoaderRoute: typeof AdminLeaderboardRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -321,6 +314,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/admin/quotes'
       preLoaderRoute: typeof AdminQuotesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leaderboard': {
+      id: '/admin/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/admin/leaderboard'
+      preLoaderRoute: typeof AdminLeaderboardRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/hots': {
